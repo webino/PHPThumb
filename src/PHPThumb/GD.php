@@ -38,14 +38,14 @@ class GD extends PHPThumb
      *
      * @var array
      */
-    protected $currentDimensions;
+    protected $currentDimensions = [];
 
     /**
      * The new, calculated dimensions of the image
      *
      * @var array
      */
-    protected $newDimensions;
+    protected $newDimensions = [];
 
     /**
      * The options for this class
@@ -56,7 +56,7 @@ class GD extends PHPThumb
      *
      * @var array
      */
-    protected $options;
+    protected $options = [];
 
     /**
      * The maximum width an image can be after resizing (in pixels)
@@ -83,8 +83,9 @@ class GD extends PHPThumb
      * @param string $fileName
      * @param array $options
      * @param array $plugins
+     * @throws \Exception
      */
-    public function __construct($fileName, $options = array(), array $plugins = array())
+    public function __construct($fileName, $options = [], array $plugins = [])
     {
         parent::__construct($fileName, $options, $plugins);
 
@@ -106,10 +107,10 @@ class GD extends PHPThumb
                 break;
         }
 
-        $this->currentDimensions = array (
+        $this->currentDimensions = [
             'width'  => imagesx($this->oldImage),
             'height' => imagesy($this->oldImage)
-        );
+        ];
     }
 
     public function __destruct()
@@ -130,7 +131,7 @@ class GD extends PHPThumb
      * @param array $color
      * @return GD
      */
-    public function pad($width, $height, $color = array(255, 255, 255, 127))
+    public function pad($width, $height, $color = [255, 255, 255, 127])
     {
         // no resize - woohoo!
         if ($width == $this->currentDimensions['width'] && $height == $this->currentDimensions['height']) {
@@ -917,7 +918,7 @@ class GD extends PHPThumb
      */
     public function save($fileName, $format = null)
     {
-        $validFormats = array('GIF', 'JPG', 'PNG');
+        $validFormats = ['GIF', 'JPG', 'PNG'];
         $format = ($format !== null) ? strtoupper($format) : $this->format;
 
         if (!in_array($format, $validFormats)) {
@@ -970,20 +971,20 @@ class GD extends PHPThumb
      * @param array $options
      * @return GD
      */
-    public function setOptions(array $options = array())
+    public function setOptions(array $options = [])
     {
         // we've yet to init the default options, so create them here
         if (sizeof($this->options) == 0) {
-            $defaultOptions = array(
+            $defaultOptions = [
                 'resizeUp'              => false,
                 'jpegQuality'           => 100,
                 'correctPermissions'    => false,
                 'preserveAlpha'         => true,
-                'alphaMaskColor'        => array (255, 255, 255),
+                'alphaMaskColor'        => [255, 255, 255],
                 'preserveTransparency'  => true,
-                'transparencyMaskColor' => array (0, 0, 0),
-                'interlace'             => null
-            );
+                'transparencyMaskColor' => [0, 0, 0],
+                'interlace'             => null,
+            ];
         } else { // otherwise, let's use what we've got already
             $defaultOptions = $this->options;
         }
@@ -1171,10 +1172,10 @@ class GD extends PHPThumb
         $newWidthPercentage = (100 * $this->maxWidth) / $width;
         $newHeight          = ($height * $newWidthPercentage) / 100;
 
-        return array(
+        return [
             'newWidth'  => intval($this->maxWidth),
             'newHeight' => intval($newHeight)
-        );
+        ];
     }
 
     /**
@@ -1189,10 +1190,10 @@ class GD extends PHPThumb
         $newHeightPercentage = (100 * $this->maxHeight) / $height;
         $newWidth            = ($width * $newHeightPercentage) / 100;
 
-        return array(
+        return [
             'newWidth'  => ceil($newWidth),
             'newHeight' => ceil($this->maxHeight)
-        );
+        ];
     }
 
     /**
@@ -1207,10 +1208,10 @@ class GD extends PHPThumb
         $newWidth  = ($width * $this->percent) / 100;
         $newHeight = ($height * $this->percent) / 100;
 
-        return array(
+        return [
             'newWidth'  => ceil($newWidth),
             'newHeight' => ceil($newHeight)
-        );
+        ];
     }
 
     /**
@@ -1223,10 +1224,10 @@ class GD extends PHPThumb
      */
     protected function calcImageSize($width, $height)
     {
-        $newSize = array(
+        $newSize = [
             'newWidth'  => $width,
             'newHeight' => $height
-        );
+        ];
 
         if ($this->maxWidth > 0) {
             $newSize = $this->calcWidth($width, $height);
