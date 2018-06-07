@@ -1,6 +1,6 @@
 <?php
 
-namespace HPThumb\Plugins;
+namespace PHPThumb\Plugins;
 
 use PHPThumb\GD as PHPThumb;
 
