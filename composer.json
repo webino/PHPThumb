@@ -1,5 +1,5 @@
 {
-    "name": "masterexploder/phpthumb",
+    "name": "webino/thumbnailer",
     "type": "library",
     "license": "MIT",
     "description": "A library for manipulating images in PHP.",
@@ -8,6 +8,9 @@
         "php": ">=5.3.0"
     },
     "homepage": "https://github.com/masterexploder/PHPThumb",
+    "replace": {
+        "masterexploder/phpthumb": "self.version"
+    },
     "authors": [
         {
             "name": "Ian Selby",
@@ -18,7 +21,6 @@
             "email": "jarrod.nettles@icloud.com"
         }
     ],
-
     "autoload": {
         "psr-0": {
             "PHPThumb": "src",
